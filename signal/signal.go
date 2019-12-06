@@ -15,15 +15,15 @@ func SigTermCancelContext(ctx context.Context) context.Context {
 	term := make(chan os.Signal)
 	signal.Notify(term, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
-	ctx, cancel := context.WithCancel(ctx)
+	c, cancel := context.WithCancel(ctx)
 
 	go func() {
 		select {
 		case <-term:
 			cancel()
-		case <-ctx.Done():
+		case <-c.Done():
 		}
 	}()
 
-	return ctx
+	return c
 }
