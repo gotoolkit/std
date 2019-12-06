@@ -13,7 +13,7 @@ import (
 
 func SigTermCancelContext(ctx context.Context) context.Context {
 	term := make(chan os.Signal)
-	signal.Notify(term, os.Interrupt, syscall.SIGTERM)
+	signal.Notify(term, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 
 	ctx, cancel := context.WithCancel(ctx)
 
